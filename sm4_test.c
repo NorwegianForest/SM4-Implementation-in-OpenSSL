@@ -10,6 +10,14 @@
 #include <stdio.h>
 #include "sm4.h"
 
+void print_block(uint8_t *block)
+{
+	int i;
+	for (i = 0; i != SM4_BLOCK_SIZE; ++i)
+		printf("%02x", block[i]);
+	printf("\n");
+}
+
 int main()
 {
 	static const uint8_t k[SM4_BLOCK_SIZE] = {
@@ -49,26 +57,18 @@ int main()
 	memcpy(block, input, SM4_BLOCK_SIZE);
 
 	SM4_encrypt(block, block, &key);
-
 	
-	for (i = 0; i != SM4_BLOCK_SIZE; ++i)
-		printf("%02x", block[i]);
-	printf("\n");
+	print_block(block);
 
 	for (i = 0; i != 999999; ++i)
 		SM4_encrypt(block, block, &key);
 
-	for (i = 0; i != SM4_BLOCK_SIZE; ++i)
-		printf("%02x", block[i]);
-	printf("\n");
+	print_block(block);
 
 	for (i = 0; i != 1000000; ++i)
 		SM4_decrypt(block, block, &key);
 
-	for (i = 0; i != SM4_BLOCK_SIZE; ++i)
-		printf("%02x", block[i]);
-	printf("\n");
-	
+	print_block(block);	
 	getchar();
 
 	return 0;
